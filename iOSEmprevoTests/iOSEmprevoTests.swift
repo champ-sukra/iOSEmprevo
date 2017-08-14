@@ -24,6 +24,25 @@ class iOSEmprevoTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        //this must be set before using waitForExpe...
+        let expect = expectation(description: "server timeout")
+
+        let bl: ShiftBL = ShiftBL()
+        bl.requestListOfShift("-37.801092800000006",
+                              "144.89747079999998",
+                              "10") { (aObjectEvent: ObjectEvent) in
+                                print(aObjectEvent.result);
+        }
+//        let manager: HTTPSessionManager = HTTPSessionManager();
+//        manager.requestPOST(["FromLat": "-37.801092800000006",
+//                             "FromLon": "144.89747079999998",
+//                             "Radius": "10"]) { aObjectResult in
+//                                print(aObjectResult.message())
+//        }
+        waitForExpectations(timeout: 1000000) { error in
+            
+        }
     }
     
     func testPerformanceExample() {
