@@ -29,7 +29,10 @@ struct Shift {
         if let company = aData["CompanyName"] as? String {
             self.company = company
         }
-        if let address = aData["Shift Location Name"] as? String {
+        if let location = aData["Shift Location Name"] as? String {
+            self.location = location
+        }
+        if let address = aData["Shift Address"] as? String {
             self.address = address
         }
         if let lat = aData["Shift Lattitude"] as? Double {
