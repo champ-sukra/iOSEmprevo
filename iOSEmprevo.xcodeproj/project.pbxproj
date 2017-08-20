@@ -13,11 +13,11 @@
 		203912B31F407EE8007A6099 /* HTTPSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203912B01F407EE8007A6099 /* HTTPSessionManager.swift */; };
 		203912B41F407EE8007A6099 /* ObjectEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203912B11F407EE8007A6099 /* ObjectEvent.swift */; };
 		2083C7661F3CA99200BE794C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2083C7651F3CA99200BE794C /* AppDelegate.swift */; };
-		2083C7681F3CA99200BE794C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2083C7671F3CA99200BE794C /* ViewController.swift */; };
 		2083C76B1F3CA99200BE794C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2083C7691F3CA99200BE794C /* Main.storyboard */; };
 		2083C76D1F3CA99200BE794C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2083C76C1F3CA99200BE794C /* Assets.xcassets */; };
 		2083C7701F3CA99200BE794C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2083C76E1F3CA99200BE794C /* LaunchScreen.storyboard */; };
 		2083C77B1F3CA99200BE794C /* iOSEmprevoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2083C77A1F3CA99200BE794C /* iOSEmprevoTests.swift */; };
+		20B00FCD1F496FA6000BD5D4 /* ShiftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */; };
 		86AF5D7F1F48213100169FC4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF5D7E1F48213100169FC4 /* MainViewController.swift */; };
 		86AF5D811F482A3E00169FC4 /* ShiftPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF5D801F482A3E00169FC4 /* ShiftPin.swift */; };
 /* End PBXBuildFile section */
@@ -40,7 +40,6 @@
 		203912B11F407EE8007A6099 /* ObjectEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectEvent.swift; sourceTree = "<group>"; };
 		2083C7621F3CA99200BE794C /* iOSEmprevo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSEmprevo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2083C7651F3CA99200BE794C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2083C7671F3CA99200BE794C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2083C76A1F3CA99200BE794C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2083C76C1F3CA99200BE794C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2083C76F1F3CA99200BE794C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -48,6 +47,7 @@
 		2083C7761F3CA99200BE794C /* iOSEmprevoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSEmprevoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2083C77A1F3CA99200BE794C /* iOSEmprevoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSEmprevoTests.swift; sourceTree = "<group>"; };
 		2083C77C1F3CA99200BE794C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftTableViewCell.swift; sourceTree = "<group>"; };
 		86AF5D7E1F48213100169FC4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		86AF5D801F482A3E00169FC4 /* ShiftPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftPin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,18 +92,18 @@
 			isa = PBXGroup;
 			children = (
 				2083C7651F3CA99200BE794C /* AppDelegate.swift */,
+				86AF5D7E1F48213100169FC4 /* MainViewController.swift */,
 				203912AF1F407EE8007A6099 /* DataCloudManager.swift */,
 				203912B01F407EE8007A6099 /* HTTPSessionManager.swift */,
 				203912B11F407EE8007A6099 /* ObjectEvent.swift */,
-				2083C7671F3CA99200BE794C /* ViewController.swift */,
+				201578321F4154860087D862 /* ShiftBL.swift */,
+				201578341F4155840087D862 /* Shift.swift */,
+				86AF5D801F482A3E00169FC4 /* ShiftPin.swift */,
+				20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */,
 				2083C7691F3CA99200BE794C /* Main.storyboard */,
 				2083C76C1F3CA99200BE794C /* Assets.xcassets */,
 				2083C76E1F3CA99200BE794C /* LaunchScreen.storyboard */,
 				2083C7711F3CA99200BE794C /* Info.plist */,
-				201578321F4154860087D862 /* ShiftBL.swift */,
-				201578341F4155840087D862 /* Shift.swift */,
-				86AF5D7E1F48213100169FC4 /* MainViewController.swift */,
-				86AF5D801F482A3E00169FC4 /* ShiftPin.swift */,
 			);
 			path = iOSEmprevo;
 			sourceTree = "<group>";
@@ -223,13 +223,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				203912B41F407EE8007A6099 /* ObjectEvent.swift in Sources */,
-				2083C7681F3CA99200BE794C /* ViewController.swift in Sources */,
 				201578331F4154860087D862 /* ShiftBL.swift in Sources */,
 				201578351F4155840087D862 /* Shift.swift in Sources */,
 				86AF5D811F482A3E00169FC4 /* ShiftPin.swift in Sources */,
 				2083C7661F3CA99200BE794C /* AppDelegate.swift in Sources */,
 				203912B31F407EE8007A6099 /* HTTPSessionManager.swift in Sources */,
 				203912B21F407EE8007A6099 /* DataCloudManager.swift in Sources */,
+				20B00FCD1F496FA6000BD5D4 /* ShiftTableViewCell.swift in Sources */,
 				86AF5D7F1F48213100169FC4 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

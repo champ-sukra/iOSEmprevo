@@ -11,6 +11,7 @@ import Foundation
 struct Shift {
     var company: String!
     var location: String!
+    var distance: String!
     var address: String!
     var latitude: Double!
     var longitude: Double!
@@ -47,5 +48,15 @@ struct Shift {
         if let endTime = aData["Shift EndDateTime(UTC)"] as? String {
             self.endTime = endTime
         }
+        if let distance = aData["distance"] as? String {
+            self.distance = distance;
+        }
+    }
+    
+    public func schedule() -> String {
+        if self.startTime != nil && self.endTime != nil {
+            return self.startTime + "\n" + self.endTime
+        }
+        return "N/A"
     }
 }

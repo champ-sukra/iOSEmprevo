@@ -12,6 +12,14 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     
     @IBOutlet weak var postcodeLabel: UILabel!
     @IBOutlet weak var postcodeTF: UITextField!
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var smcSwitch: UISegmentedControl!
+    @IBOutlet weak var tbShifts: UITableView!
+    @IBOutlet weak var locMapWidth: NSLayoutConstraint!
+    @IBOutlet weak var locTableWidth: NSLayoutConstraint!
+    @IBOutlet weak var scContent: UIScrollView!
+
+    var arShitfts: [Shift] = [Shift]()
     
     var _useLocation = false
     var useLocation:Bool {
@@ -38,10 +46,15 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     
     var initialLocation = CLLocation(latitude: -37.8010, longitude: 144.897470)
     
-    @IBOutlet weak var mapView: MKMapView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.locMapWidth.constant =  UIScreen.main.bounds.size.width
+        self.locTableWidth.constant =  UIScreen.main.bounds.size.width
+        
+        self.tbShifts.dataSource = self;
+        
+        self.scContent.isPagingEnabled = true
         
         // Ask for Authorisation from the User.
         self.locationManager.requestAlwaysAuthorization()
@@ -88,10 +101,12 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
                               String(format:"%.3f", regionRadius / 1000)) { (aObjectEvent: ObjectEvent) in
                                 print(aObjectEvent.result)
                                 
-                                let shitfts: [Shift] = aObjectEvent.result as! [Shift]
+                                self.arShitfts.removeAll()
+                                self.arShitfts.append(contentsOf: aObjectEvent.result as! [Shift])
+                                self.tbShifts.reloadData()
                                 
-                                for shift in shitfts {
-                                    
+                                
+                                for shift in self.arShitfts {
                                     let shiftPin = ShiftPin(title: shift.company,
                                                             locationName: shift.location,
                                                             coordinate: CLLocationCoordinate2D(latitude: shift.latitude, longitude: shift.longitude))
@@ -152,4 +167,39 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
             searchByPostCode()
         }
     }
+    
+    @IBAction func switchView(_ sender: Any) {
+        let x = CGFloat(self.smcSwitch.selectedSegmentIndex) * self.scContent.frame.size.width
+        self.scContent.setContentOffset(CGPoint(x:x, y:0), animated: true)
+    }
 }
+
+extension MainViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.arShitfts.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellIdentifier = "ShiftTableViewCell"
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ShiftTableViewCell  else {
+            fatalError("The dequeued cell is not an instance of ShiftTableViewCell.")
+        }
+        
+        let shift: Shift = self.arShitfts[indexPath.row];
+        
+        cell.lbCompanyName.text = shift.location
+        cell.lbDistance.text = shift.distance
+        cell.lbAddress.text = shift.address
+        cell.lbSchedule.text = shift.schedule()
+        
+        return cell
+    }
+
+}
+
+

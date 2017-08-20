@@ -31,7 +31,7 @@ class iOSEmprevoTests: XCTestCase {
         let bl: ShiftBL = ShiftBL()
         bl.requestListOfShift("-37.801092800000006",
                               "144.89747079999998",
-                              "10") { (aObjectEvent: ObjectEvent) in
+                              "20") { (aObjectEvent: ObjectEvent) in
                                 print(aObjectEvent.result);
         }
 //        let manager: HTTPSessionManager = HTTPSessionManager();
