@@ -42,10 +42,10 @@ struct Shift {
         if let lon = aData["Shift Longitude"] as? Double {
             self.longitude = lon
         }
-        if let startTime = aData["Shift StartDateTime(UTC)"] as? String {
+        if let startTime = aData["Shift StartDateTime (UTC)"] as? String {
             self.startTime = startTime
         }
-        if let endTime = aData["Shift EndDateTime(UTC)"] as? String {
+        if let endTime = aData["Shift EndDateTime (UTC)"] as? String {
             self.endTime = endTime
         }
         if let distance = aData["distance"] as? String {

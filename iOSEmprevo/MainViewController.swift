@@ -26,11 +26,11 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         set(newValue) {
             if (newValue) {
                 postcodeTF.isHidden = true
-                postcodeLabel.isHidden = true
+//                postcodeLabel.isHidden = true
                 self.searchByLocation()
             } else {
                 postcodeTF.isHidden = false
-                postcodeLabel.isHidden = false
+//                postcodeLabel.isHidden = false
             }
             
             _useLocation = newValue
