@@ -34,4 +34,27 @@ class ShiftBL {
                                 aCompletion(aObjectEvent)
         }
     }
+    
+    public func requestListOfShiftByPostcode(_ aRadius: String, _ postcode: String, aCompletion: @escaping (ObjectEvent) -> Void) {
+        manager.requestPOST(["postcode": postcode,
+                             "Radius": aRadius]) { (aObjectEvent: ObjectEvent) in
+                                
+                                guard let results = aObjectEvent.result as? [Any] else {
+                                    aObjectEvent.isSuccessful = false
+                                    aObjectEvent.resultMessage = "Server internal error"
+                                    
+                                    aCompletion(aObjectEvent)
+                                    return
+                                }
+                                
+                                var shifts: [Shift] = [Shift]()
+                                for shift in results {
+                                    if let s = shift as? [String: Any] {
+                                        shifts.append(Shift(s))
+                                    }
+                                }
+                                aObjectEvent.result = shifts
+                                aCompletion(aObjectEvent)
+        }
+    }
 }

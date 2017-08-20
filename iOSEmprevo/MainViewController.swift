@@ -66,7 +66,7 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         
         let OKAction = UIAlertAction(title: "Yes", style: .default) { (action:UIAlertAction!) in
             self.useLocation = true
-
+            
         }
         alertController.addAction(OKAction)
         
@@ -84,31 +84,61 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         centerMapOnLocation(location: initialLocation)
         
         bl.requestListOfShift("\(initialLocation.coordinate.latitude)",
-                              "\(initialLocation.coordinate.longitude)",
-                              String(format:"%.3f", regionRadius / 1000)) { (aObjectEvent: ObjectEvent) in
-                                print(aObjectEvent.result)
-                                
-                                let shitfts: [Shift] = aObjectEvent.result as! [Shift]
-                                
-                                for shift in shitfts {
-                                    
-                                    let shiftPin = ShiftPin(title: shift.company,
-                                                            locationName: shift.location,
-                                                            coordinate: CLLocationCoordinate2D(latitude: shift.latitude, longitude: shift.longitude))
-                                    
-                                    self.mapView.addAnnotation(shiftPin)
-                                }
+            "\(initialLocation.coordinate.longitude)",
+        String(format:"%.3f", regionRadius / 1000)) { (aObjectEvent: ObjectEvent) in
+            print(aObjectEvent.result)
+            
+            let shifts: [Shift] = aObjectEvent.result as! [Shift]
+            
+            for shift in shifts {
+                
+                let shiftPin = ShiftPin(title: shift.company,
+                                        locationName: shift.location,
+                                        address: shift.address,
+                                        coordinate: CLLocationCoordinate2D(latitude: shift.latitude, longitude: shift.longitude))
+                
+                self.mapView.addAnnotation(shiftPin)
+            }
         }
     }
     
     func searchByPostCode() {
-        let alertController = UIAlertController(title: "Error", message:
-            "searcy by post code not implemented", preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
         
-        self.present(alertController, animated: true, completion: nil)
+        
+        bl.requestListOfShiftByPostcode(
+            String(format:"%.3f", regionRadius / 1000), postcodeTF.text ?? "")
+        { (aObjectEvent: ObjectEvent) in
+            print(aObjectEvent.result)
+            
+            let shifts: [Shift] = aObjectEvent.result as! [Shift]
+            
+            for shift in shifts {
+                
+                let shiftPin = ShiftPin(title: shift.company,
+                                        locationName: shift.location,
+                                        address: shift.address,
+                                        coordinate: CLLocationCoordinate2D(latitude: shift.latitude, longitude: shift.longitude))
+                
+                self.mapView.addAnnotation(shiftPin)
+            }
+            
+            if shifts.count == 0 {
+                DispatchQueue.main.async() {
+                    let alertController = UIAlertController(title: "Error", message:
+                        "No shifts data found", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            } else {
+                let shift1 = shifts[0]
+                self.centerMapOnLocation(location: CLLocation(latitude: shift1.latitude, longitude: shift1.longitude))
+            }
+        }
+        
+        
     }
-
+    
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
                                                                   regionRadius * 2.0, regionRadius * 2.0)
@@ -143,6 +173,13 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location2D = manager.location!.coordinate
         initialLocation = CLLocation(latitude: location2D.latitude, longitude: location2D.longitude)
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
+                 calloutAccessoryControlTapped control: UIControl) {
+        let location = view.annotation as! ShiftPin
+        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsMapCenterKey]
+        location.mapItem().openInMaps(launchOptions: launchOptions)
     }
     
     @IBAction func search(_ sender: Any) {
