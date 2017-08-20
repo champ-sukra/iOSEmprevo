@@ -99,6 +99,12 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
                 
                 self.mapView.addAnnotation(shiftPin)
             }
+            
+            let mePin = ShiftPin(title: "Me",
+                                locationName: "",
+                                address: "",
+                                coordinate: self.initialLocation.coordinate)
+            self.mapView.addAnnotation(mePin)
         }
     }
     
@@ -183,6 +189,9 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     }
     
     @IBAction func search(_ sender: Any) {
+        let allAnnotations = self.mapView.annotations
+        mapView.removeAnnotations(allAnnotations)
+        
         if (useLocation) {
             searchByLocation()
         } else {
