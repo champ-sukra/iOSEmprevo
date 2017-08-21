@@ -18,6 +18,7 @@
 		2083C7701F3CA99200BE794C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2083C76E1F3CA99200BE794C /* LaunchScreen.storyboard */; };
 		2083C77B1F3CA99200BE794C /* iOSEmprevoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2083C77A1F3CA99200BE794C /* iOSEmprevoTests.swift */; };
 		20B00FCD1F496FA6000BD5D4 /* ShiftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */; };
+		20F324641F4A7E7A005A2DE7 /* GPX Emprevo.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 20F324631F4A7E7A005A2DE7 /* GPX Emprevo.gpx */; };
 		86AF5D7F1F48213100169FC4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF5D7E1F48213100169FC4 /* MainViewController.swift */; };
 		86AF5D811F482A3E00169FC4 /* ShiftPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF5D801F482A3E00169FC4 /* ShiftPin.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 		2083C77A1F3CA99200BE794C /* iOSEmprevoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSEmprevoTests.swift; sourceTree = "<group>"; };
 		2083C77C1F3CA99200BE794C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftTableViewCell.swift; sourceTree = "<group>"; };
+		20F324631F4A7E7A005A2DE7 /* GPX Emprevo.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "GPX Emprevo.gpx"; sourceTree = "<group>"; };
 		86AF5D7E1F48213100169FC4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		86AF5D801F482A3E00169FC4 /* ShiftPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftPin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -73,6 +75,7 @@
 		2083C7591F3CA99200BE794C = {
 			isa = PBXGroup;
 			children = (
+				20F324631F4A7E7A005A2DE7 /* GPX Emprevo.gpx */,
 				2083C7641F3CA99200BE794C /* iOSEmprevo */,
 				2083C7791F3CA99200BE794C /* iOSEmprevoTests */,
 				2083C7631F3CA99200BE794C /* Products */,
@@ -203,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2083C7701F3CA99200BE794C /* LaunchScreen.storyboard in Resources */,
+				20F324641F4A7E7A005A2DE7 /* GPX Emprevo.gpx in Resources */,
 				2083C76D1F3CA99200BE794C /* Assets.xcassets in Resources */,
 				2083C76B1F3CA99200BE794C /* Main.storyboard in Resources */,
 			);

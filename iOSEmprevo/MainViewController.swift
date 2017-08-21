@@ -18,6 +18,7 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     @IBOutlet weak var locMapWidth: NSLayoutConstraint!
     @IBOutlet weak var locTableWidth: NSLayoutConstraint!
     @IBOutlet weak var scContent: UIScrollView!
+    @IBOutlet weak var lbDistance: UILabel!
 
     var arShitfts: [Shift] = [Shift]()
     
@@ -26,11 +27,11 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         set(newValue) {
             if (newValue) {
                 postcodeTF.isHidden = true
-//                postcodeLabel.isHidden = true
+                postcodeLabel.isHidden = true
                 self.searchByLocation()
             } else {
                 postcodeTF.isHidden = false
-//                postcodeLabel.isHidden = false
+                postcodeLabel.isHidden = false
             }
             
             _useLocation = newValue
@@ -53,7 +54,7 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         self.locTableWidth.constant =  UIScreen.main.bounds.size.width
         
         self.tbShifts.dataSource = self;
-        
+        self.lbDistance.text = "5" + " KM"
         self.scContent.isPagingEnabled = true
         
         // Ask for Authorisation from the User.
@@ -64,7 +65,8 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+            locationManager.distanceFilter = kCLDistanceFilterNone;
             locationManager.startUpdatingLocation()
         }
         
@@ -152,12 +154,16 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     
     @IBAction func radiusSliderChanged(_ sender: UISlider) {
         self.regionRadius = CLLocationDistance(sender.value * 1000)
+        self.lbDistance.text = "\(sender.value)" + " KM"
+        
         centerMapOnLocation(location: initialLocation)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location2D = manager.location!.coordinate
-        initialLocation = CLLocation(latitude: location2D.latitude, longitude: location2D.longitude)
+//        let location2D = manager.location!.coordinate
+//        initialLocation = CLLocation(latitude: location2D.latitude, longitude: location2D.longitude)
+    
+//        let lastLocation = locations.last!
     }
     
     @IBAction func search(_ sender: Any) {

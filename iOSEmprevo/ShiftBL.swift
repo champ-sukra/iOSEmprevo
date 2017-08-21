@@ -16,22 +16,25 @@ class ShiftBL {
                              "FromLon": aLon,
                              "Radius": aRadius]) { (aObjectEvent: ObjectEvent) in
 
-                                guard let results = aObjectEvent.result as? [Any] else {
-                                    aObjectEvent.isSuccessful = false
-                                    aObjectEvent.resultMessage = "Server internal error"
-                                    
-                                    aCompletion(aObjectEvent)
-                                    return
-                                }
-                                
-                                var shifts: [Shift] = [Shift]()
-                                for shift in results {
-                                    if let s = shift as? [String: Any] {
-                                        shifts.append(Shift(s))
+                                DispatchQueue.main.sync {
+                                    guard let results = aObjectEvent.result as? [Any] else {
+                                        aObjectEvent.isSuccessful = false
+                                        aObjectEvent.resultMessage = "Server internal error"
+                                        
+                                        aCompletion(aObjectEvent)
+                                        return
                                     }
+                                    
+                                    var shifts: [Shift] = [Shift]()
+                                    for shift in results {
+                                        if let s = shift as? [String: Any] {
+                                            shifts.append(Shift(s))
+                                        }
+                                    }
+                                    aObjectEvent.result = shifts
+                                    aCompletion(aObjectEvent)
+   
                                 }
-                                aObjectEvent.result = shifts
-                                aCompletion(aObjectEvent)
         }
     }
 }

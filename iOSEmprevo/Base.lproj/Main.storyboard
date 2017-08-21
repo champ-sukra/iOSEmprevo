@@ -39,7 +39,7 @@
                                                         <rect key="frame" x="0.0" y="28" width="320" height="60"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fEj-se-E7n" id="I1m-2i-Hoc">
-                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PEf-t6-C8Y">
@@ -137,7 +137,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mzQ-QX-6Ft">
                                 <rect key="frame" x="0.0" y="447" width="320" height="121"/>
                                 <subviews>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="5" maxValue="30" translatesAutoresizingMaskIntoConstraints="NO" id="sJJ-pA-dOM">
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="sJJ-pA-dOM">
                                         <rect key="frame" x="19" y="9" width="210.5" height="31"/>
                                         <connections>
                                             <action selector="radiusSliderChanged:" destination="Vqx-eW-Hae" eventType="valueChanged" id="wld-JT-bRL"/>
@@ -204,10 +204,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="lbDistance" destination="xmk-wS-v55" id="Ta0-02-aI6"/>
                         <outlet property="locMapWidth" destination="SID-i0-gkf" id="fH7-hp-fdw"/>
                         <outlet property="locTableWidth" destination="IdG-Sy-QOM" id="xZ6-uK-2dD"/>
                         <outlet property="mapView" destination="xBf-oj-4e6" id="WHc-it-Axu"/>
-                        <outlet property="postcodeLabel" destination="xmk-wS-v55" id="UN4-oE-hmT"/>
+                        <outlet property="postcodeLabel" destination="453-kY-ZP5" id="SWc-af-2Kr"/>
                         <outlet property="postcodeTF" destination="6Hw-GR-dyz" id="Dxv-Qt-5xo"/>
                         <outlet property="scContent" destination="dtY-Cu-wT5" id="9R9-pp-Kuj"/>
                         <outlet property="smcSwitch" destination="UNm-fd-9i7" id="6Xi-Lv-Ve0"/>
