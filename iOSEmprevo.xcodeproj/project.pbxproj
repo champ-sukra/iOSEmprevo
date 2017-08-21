@@ -19,6 +19,9 @@
 		2083C77B1F3CA99200BE794C /* iOSEmprevoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2083C77A1F3CA99200BE794C /* iOSEmprevoTests.swift */; };
 		20B00FCD1F496FA6000BD5D4 /* ShiftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */; };
 		20F324641F4A7E7A005A2DE7 /* GPX Emprevo.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 20F324631F4A7E7A005A2DE7 /* GPX Emprevo.gpx */; };
+		20F324661F4B15E0005A2DE7 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F324651F4B15E0005A2DE7 /* InitialViewController.swift */; };
+		20F324681F4B16F2005A2DE7 /* InitBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F324671F4B16F2005A2DE7 /* InitBL.swift */; };
+		20F3246A1F4B1904005A2DE7 /* BaseBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F324691F4B1904005A2DE7 /* BaseBL.swift */; };
 		86AF5D7F1F48213100169FC4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF5D7E1F48213100169FC4 /* MainViewController.swift */; };
 		86AF5D811F482A3E00169FC4 /* ShiftPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF5D801F482A3E00169FC4 /* ShiftPin.swift */; };
 /* End PBXBuildFile section */
@@ -50,6 +53,9 @@
 		2083C77C1F3CA99200BE794C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftTableViewCell.swift; sourceTree = "<group>"; };
 		20F324631F4A7E7A005A2DE7 /* GPX Emprevo.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "GPX Emprevo.gpx"; sourceTree = "<group>"; };
+		20F324651F4B15E0005A2DE7 /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		20F324671F4B16F2005A2DE7 /* InitBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitBL.swift; sourceTree = "<group>"; };
+		20F324691F4B1904005A2DE7 /* BaseBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseBL.swift; sourceTree = "<group>"; };
 		86AF5D7E1F48213100169FC4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		86AF5D801F482A3E00169FC4 /* ShiftPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftPin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,13 +101,11 @@
 			isa = PBXGroup;
 			children = (
 				2083C7651F3CA99200BE794C /* AppDelegate.swift */,
-				86AF5D7E1F48213100169FC4 /* MainViewController.swift */,
 				203912AF1F407EE8007A6099 /* DataCloudManager.swift */,
 				203912B01F407EE8007A6099 /* HTTPSessionManager.swift */,
-				203912B11F407EE8007A6099 /* ObjectEvent.swift */,
-				201578321F4154860087D862 /* ShiftBL.swift */,
-				201578341F4155840087D862 /* Shift.swift */,
-				86AF5D801F482A3E00169FC4 /* ShiftPin.swift */,
+				20F3246B1F4B2264005A2DE7 /* ViewController */,
+				20F3246C1F4B226B005A2DE7 /* BL */,
+				20F3246D1F4B227B005A2DE7 /* Model */,
 				20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */,
 				2083C7691F3CA99200BE794C /* Main.storyboard */,
 				2083C76C1F3CA99200BE794C /* Assets.xcassets */,
@@ -118,6 +122,35 @@
 				2083C77C1F3CA99200BE794C /* Info.plist */,
 			);
 			path = iOSEmprevoTests;
+			sourceTree = "<group>";
+		};
+		20F3246B1F4B2264005A2DE7 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				20F324651F4B15E0005A2DE7 /* InitialViewController.swift */,
+				86AF5D7E1F48213100169FC4 /* MainViewController.swift */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		20F3246C1F4B226B005A2DE7 /* BL */ = {
+			isa = PBXGroup;
+			children = (
+				20F324691F4B1904005A2DE7 /* BaseBL.swift */,
+				201578321F4154860087D862 /* ShiftBL.swift */,
+				20F324671F4B16F2005A2DE7 /* InitBL.swift */,
+			);
+			name = BL;
+			sourceTree = "<group>";
+		};
+		20F3246D1F4B227B005A2DE7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				203912B11F407EE8007A6099 /* ObjectEvent.swift */,
+				201578341F4155840087D862 /* Shift.swift */,
+				86AF5D801F482A3E00169FC4 /* ShiftPin.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -226,11 +259,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20F3246A1F4B1904005A2DE7 /* BaseBL.swift in Sources */,
 				203912B41F407EE8007A6099 /* ObjectEvent.swift in Sources */,
 				201578331F4154860087D862 /* ShiftBL.swift in Sources */,
 				201578351F4155840087D862 /* Shift.swift in Sources */,
 				86AF5D811F482A3E00169FC4 /* ShiftPin.swift in Sources */,
 				2083C7661F3CA99200BE794C /* AppDelegate.swift in Sources */,
+				20F324681F4B16F2005A2DE7 /* InitBL.swift in Sources */,
+				20F324661F4B15E0005A2DE7 /* InitialViewController.swift in Sources */,
 				203912B31F407EE8007A6099 /* HTTPSessionManager.swift in Sources */,
 				203912B21F407EE8007A6099 /* DataCloudManager.swift in Sources */,
 				20B00FCD1F496FA6000BD5D4 /* ShiftTableViewCell.swift in Sources */,
