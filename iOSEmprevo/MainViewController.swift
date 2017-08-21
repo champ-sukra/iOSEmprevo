@@ -115,6 +115,11 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
                                     
                                     self.mapView.addAnnotation(shiftPin)
                                 }
+                                
+                                let mePin = ShiftPin(title: "Me",
+                                                     locationName: "",
+                                                     coordinate: self.initialLocation.coordinate)
+                                self.mapView.addAnnotation(mePin)
         }
     }
     
