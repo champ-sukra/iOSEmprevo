@@ -165,10 +165,8 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        let location2D = manager.location!.coordinate
-//        initialLocation = CLLocation(latitude: location2D.latitude, longitude: location2D.longitude)
-    
-//        let lastLocation = locations.last!
+        let location2D = manager.location!.coordinate
+        initialLocation = CLLocation(latitude: location2D.latitude, longitude: location2D.longitude)
     }
     
     @IBAction func search(_ sender: Any) {

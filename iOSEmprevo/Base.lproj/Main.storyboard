@@ -10,6 +10,64 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Initial View Controller-->
+        <scene sceneID="pfG-h3-fwC">
+            <objects>
+                <viewController storyboardIdentifier="Loading" id="cOs-fL-rjw" customClass="InitialViewController" customModule="iOSEmprevo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Pxl-IQ-iOt"/>
+                        <viewControllerLayoutGuide type="bottom" id="YLx-RQ-5VL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="F2r-04-GEq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="CHb-zN-qll">
+                                <rect key="frame" x="142" y="246" width="37" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="37" id="gye-dw-IEV"/>
+                                    <constraint firstAttribute="height" constant="37" id="vbL-wA-qMo"/>
+                                </constraints>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Emprevo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trt-fG-dOT">
+                                <rect key="frame" x="60" y="150" width="200" height="65"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="nW1-SX-S1F"/>
+                                    <constraint firstAttribute="width" constant="200" id="pt1-86-Zg0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xEH-jP-Yrq">
+                                <rect key="frame" x="60.5" y="321" width="200" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="YQj-r6-yuK"/>
+                                    <constraint firstAttribute="width" constant="200" id="sTt-10-9BK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.37254901960784315" green="0.16862745098039217" blue="0.79607843137254897" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="trt-fG-dOT" firstAttribute="centerX" secondItem="F2r-04-GEq" secondAttribute="centerX" id="0jY-UQ-vVS"/>
+                            <constraint firstItem="xEH-jP-Yrq" firstAttribute="centerX" secondItem="CHb-zN-qll" secondAttribute="centerX" id="594-wF-Eg2"/>
+                            <constraint firstItem="CHb-zN-qll" firstAttribute="top" secondItem="trt-fG-dOT" secondAttribute="bottom" constant="31" id="b8J-br-feR"/>
+                            <constraint firstItem="trt-fG-dOT" firstAttribute="top" secondItem="Pxl-IQ-iOt" secondAttribute="bottom" constant="130" id="rDJ-CR-6jw"/>
+                            <constraint firstItem="xEH-jP-Yrq" firstAttribute="top" secondItem="CHb-zN-qll" secondAttribute="bottom" constant="38" id="rFO-1t-Djp"/>
+                            <constraint firstItem="CHb-zN-qll" firstAttribute="centerX" secondItem="trt-fG-dOT" secondAttribute="centerX" id="wMK-Wm-HoT"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="lbLoading" destination="xEH-jP-Yrq" id="LnQ-OU-mel"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S4h-CY-2Wy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-879.375" y="-2507.7464788732395"/>
+        </scene>
         <!--Main View Controller-->
         <scene sceneID="wSx-w1-IQt">
             <objects>

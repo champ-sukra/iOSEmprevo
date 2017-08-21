@@ -9,7 +9,7 @@
 import Foundation
 
 class ObjectEvent: NSObject {
-    var isSuccessful: Bool!    
+    var isSuccessful: Bool = false
     var status: Int!
     var resultMessage: String!
     var result: Any!
