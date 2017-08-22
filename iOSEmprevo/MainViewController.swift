@@ -156,11 +156,11 @@ class MainViewController: UIViewController, MKMapViewDelegate {
             let identifier = "pin"
             var view: MKPinAnnotationView
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-                as? MKPinAnnotationView { // 2
+                as? MKPinAnnotationView {
                 dequeuedView.annotation = annotation
                 view = dequeuedView
-            } else {
-                // 3
+            }
+            else {
                 view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 view.canShowCallout = true
                 view.calloutOffset = CGPoint(x: -5, y: 5)
@@ -199,6 +199,16 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location2D = manager.location!.coordinate
         self.locationCoordinate = CLLocation(latitude: location2D.latitude, longitude: location2D.longitude)
+
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(self.locationCoordinate, completionHandler: {(placemarks, error) -> Void in
+            if((error) != nil){
+                print(error?.localizedDescription ?? "Error -- geocodeAddressString")
+            }
+            if let placemark = placemarks?.first {
+                self.postcodeTF.text = placemark.postalCode
+            }
+        })
     }
 }
 

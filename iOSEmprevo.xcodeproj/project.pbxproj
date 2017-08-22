@@ -18,10 +18,12 @@
 		2083C7701F3CA99200BE794C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2083C76E1F3CA99200BE794C /* LaunchScreen.storyboard */; };
 		2083C77B1F3CA99200BE794C /* iOSEmprevoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2083C77A1F3CA99200BE794C /* iOSEmprevoTests.swift */; };
 		20B00FCD1F496FA6000BD5D4 /* ShiftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */; };
-		20F324641F4A7E7A005A2DE7 /* GPX Emprevo.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 20F324631F4A7E7A005A2DE7 /* GPX Emprevo.gpx */; };
 		20F324661F4B15E0005A2DE7 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F324651F4B15E0005A2DE7 /* InitialViewController.swift */; };
 		20F324681F4B16F2005A2DE7 /* InitBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F324671F4B16F2005A2DE7 /* InitBL.swift */; };
 		20F3246A1F4B1904005A2DE7 /* BaseBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F324691F4B1904005A2DE7 /* BaseBL.swift */; };
+		20F324711F4BE49F005A2DE7 /* GPX Footscray.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 20F3246E1F4BE49F005A2DE7 /* GPX Footscray.gpx */; };
+		20F324721F4BE49F005A2DE7 /* GPX RMIT.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 20F3246F1F4BE49F005A2DE7 /* GPX RMIT.gpx */; };
+		20F324731F4BE49F005A2DE7 /* GPX Toorak.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 20F324701F4BE49F005A2DE7 /* GPX Toorak.gpx */; };
 		86AF5D7F1F48213100169FC4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF5D7E1F48213100169FC4 /* MainViewController.swift */; };
 		86AF5D811F482A3E00169FC4 /* ShiftPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AF5D801F482A3E00169FC4 /* ShiftPin.swift */; };
 /* End PBXBuildFile section */
@@ -52,10 +54,12 @@
 		2083C77A1F3CA99200BE794C /* iOSEmprevoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSEmprevoTests.swift; sourceTree = "<group>"; };
 		2083C77C1F3CA99200BE794C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftTableViewCell.swift; sourceTree = "<group>"; };
-		20F324631F4A7E7A005A2DE7 /* GPX Emprevo.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "GPX Emprevo.gpx"; sourceTree = "<group>"; };
 		20F324651F4B15E0005A2DE7 /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 		20F324671F4B16F2005A2DE7 /* InitBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitBL.swift; sourceTree = "<group>"; };
 		20F324691F4B1904005A2DE7 /* BaseBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseBL.swift; sourceTree = "<group>"; };
+		20F3246E1F4BE49F005A2DE7 /* GPX Footscray.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "GPX Footscray.gpx"; sourceTree = "<group>"; };
+		20F3246F1F4BE49F005A2DE7 /* GPX RMIT.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "GPX RMIT.gpx"; sourceTree = "<group>"; };
+		20F324701F4BE49F005A2DE7 /* GPX Toorak.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "GPX Toorak.gpx"; sourceTree = "<group>"; };
 		86AF5D7E1F48213100169FC4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		86AF5D801F482A3E00169FC4 /* ShiftPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftPin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,7 +85,9 @@
 		2083C7591F3CA99200BE794C = {
 			isa = PBXGroup;
 			children = (
-				20F324631F4A7E7A005A2DE7 /* GPX Emprevo.gpx */,
+				20F3246E1F4BE49F005A2DE7 /* GPX Footscray.gpx */,
+				20F3246F1F4BE49F005A2DE7 /* GPX RMIT.gpx */,
+				20F324701F4BE49F005A2DE7 /* GPX Toorak.gpx */,
 				2083C7641F3CA99200BE794C /* iOSEmprevo */,
 				2083C7791F3CA99200BE794C /* iOSEmprevoTests */,
 				2083C7631F3CA99200BE794C /* Products */,
@@ -239,9 +245,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2083C7701F3CA99200BE794C /* LaunchScreen.storyboard in Resources */,
-				20F324641F4A7E7A005A2DE7 /* GPX Emprevo.gpx in Resources */,
+				20F324721F4BE49F005A2DE7 /* GPX RMIT.gpx in Resources */,
+				20F324731F4BE49F005A2DE7 /* GPX Toorak.gpx in Resources */,
 				2083C76D1F3CA99200BE794C /* Assets.xcassets in Resources */,
 				2083C76B1F3CA99200BE794C /* Main.storyboard in Resources */,
+				20F324711F4BE49F005A2DE7 /* GPX Footscray.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
