@@ -14,8 +14,8 @@ class HTTPSessionManager {
     public let urlString: String!
     
     init() {
-//        self.urlString = "https://apiemprevo.appspot.com/"
-        self.urlString = "http://localhost:50612/"
+        self.urlString = "https://apiemprevo.appspot.com/"
+//        self.urlString = "http://localhost:50612/"
     }
     
     func requestGET(_ aEndPoint: String, aCompletion: @escaping(ObjectEvent) -> Void) {
