@@ -22,7 +22,7 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var scContent: UIScrollView!
 
     var arShitfts: [Shift] = [Shift]()
-    
+    var isSearching: Bool = false
     var regionRadius: CLLocationDistance = 10000
     let locationManager = CLLocationManager()
     let bl: ShiftBL = ShiftBL()
@@ -108,17 +108,19 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     }
     
     func searchByLocation() {
+        self.isSearching = true
         self.tfRadius.resignFirstResponder()
         self.postcodeTF.resignFirstResponder()
+        self.arShitfts.removeAll()
+        self.tbShifts.reloadData()
         
         self.reloadLocationCoordinate { (Void) in
             self.centerMapOnLocation(location: self.locationCoordinate)
             
             self.bl.requestListOfShift("\(self.locationCoordinate.coordinate.latitude)",
             "\(self.locationCoordinate.coordinate.longitude)", self.tfRadius.text ?? "3000") { (aObjectEvent: ObjectEvent) in
-                print(aObjectEvent.result)
+                self.isSearching = false
                 
-                self.arShitfts.removeAll()
                 self.arShitfts.append(contentsOf: aObjectEvent.result as! [Shift])
                 self.tbShifts.reloadData()
                 
@@ -209,7 +211,7 @@ extension MainViewController: UITableViewDataSource {
         else {
             let rect = CGRect(x: 0, y: 0, width: self.tbShifts.bounds.size.width, height: self.tbShifts.bounds.size.height)
             let msgLabel = UILabel(frame: rect)
-            msgLabel.text = "No shift available. Please change your filters"
+            msgLabel.text = (self.isSearching == true) ? "Loading" : "No shift available. Please change your filters"
             msgLabel.textColor = UIColor.black
             msgLabel.numberOfLines = 0;
             msgLabel.textAlignment = .center

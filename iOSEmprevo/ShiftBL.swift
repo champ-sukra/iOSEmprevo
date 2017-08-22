@@ -28,6 +28,9 @@ class ShiftBL: BaseBL {
                                         shifts.append(Shift(s))
                                     }
                                 }
+                                shifts.sort {
+                                    $0.distance < $1.distance
+                                }
                                 aObjectEvent.result = shifts
                                 aCompletion(aObjectEvent)
         }
