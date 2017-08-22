@@ -58,25 +58,30 @@ class MainViewController: UIViewController, MKMapViewDelegate {
         let cancelAction = UIAlertAction(title: "No", style: .cancel) { (action:UIAlertAction!) in
             self.swLS.setOn(false, animated: true)
             self.reloadInitialData()
-            
-            let address = self.postcodeTF.text ?? "3000" + ", Victoria, Australia"
-            let geocoder = CLGeocoder()
-            geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
-                if((error) != nil){
-                    print(error?.localizedDescription ?? "Error -- geocodeAddressString")
-                }
-                if let placemark = placemarks?.first {
-                    let coordinates:CLLocationCoordinate2D = placemark.location!.coordinate
-                    
-                    self.locationCoordinate = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
-                    self.searchByLocation()
-                }
+            self.reloadLocationCoordinate(aCompletion: { (Void) in
+                self.searchByLocation()
             })
         }
         
         alertController.addAction(cancelAction)
         
         self.present(alertController, animated: true, completion:nil)
+    }
+    
+    private func reloadLocationCoordinate(aCompletion: @escaping (Void) -> Void) {
+        let address = self.postcodeTF.text ?? "3000" + ", Victoria, Australia"
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
+            if((error) != nil){
+                print(error?.localizedDescription ?? "Error -- geocodeAddressString")
+            }
+            if let placemark = placemarks?.first {
+                let coordinates:CLLocationCoordinate2D = placemark.location!.coordinate
+                
+                self.locationCoordinate = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+                aCompletion()
+            }
+        })
     }
     
     private func reloadInitialData() {
@@ -106,29 +111,31 @@ class MainViewController: UIViewController, MKMapViewDelegate {
         self.tfRadius.resignFirstResponder()
         self.postcodeTF.resignFirstResponder()
         
-        centerMapOnLocation(location: locationCoordinate)
-        
-        bl.requestListOfShift("\(locationCoordinate.coordinate.latitude)",
-                              "\(locationCoordinate.coordinate.longitude)", self.tfRadius.text ?? "3000") { (aObjectEvent: ObjectEvent) in
-                                print(aObjectEvent.result)
-                                
-                                self.arShitfts.removeAll()
-                                self.arShitfts.append(contentsOf: aObjectEvent.result as! [Shift])
-                                self.tbShifts.reloadData()
-                                
-                                
-                                for shift in self.arShitfts {
-                                    let shiftPin = ShiftPin(title: shift.company,
-                                                            locationName: shift.location,
-                                                            coordinate: CLLocationCoordinate2D(latitude: shift.latitude, longitude: shift.longitude))
-                                    
-                                    self.mapView.addAnnotation(shiftPin)
-                                }
-                                
-                                let mePin = ShiftPin(title: "Me",
-                                                     locationName: "",
-                                                     coordinate: self.locationCoordinate.coordinate)
-                                self.mapView.addAnnotation(mePin)
+        self.reloadLocationCoordinate { (Void) in
+            self.centerMapOnLocation(location: self.locationCoordinate)
+            
+            self.bl.requestListOfShift("\(self.locationCoordinate.coordinate.latitude)",
+            "\(self.locationCoordinate.coordinate.longitude)", self.tfRadius.text ?? "3000") { (aObjectEvent: ObjectEvent) in
+                print(aObjectEvent.result)
+                
+                self.arShitfts.removeAll()
+                self.arShitfts.append(contentsOf: aObjectEvent.result as! [Shift])
+                self.tbShifts.reloadData()
+                
+                
+                for shift in self.arShitfts {
+                    let shiftPin = ShiftPin(title: shift.company,
+                                            locationName: shift.location,
+                                            coordinate: CLLocationCoordinate2D(latitude: shift.latitude, longitude: shift.longitude))
+                    
+                    self.mapView.addAnnotation(shiftPin)
+                }
+                
+                let mePin = ShiftPin(title: "Me",
+                                     locationName: "",
+                                     coordinate: self.locationCoordinate.coordinate)
+                self.mapView.addAnnotation(mePin)
+            }
         }
     }
     
