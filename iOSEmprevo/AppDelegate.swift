@@ -14,11 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "Loading")
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyboard.instantiateViewController(withIdentifier: "LoadVC")
         
         self.window?.makeKeyAndVisible()
-        self.window?.rootViewController?.present(vc, animated: false, completion: nil)
+//        self.window?.rootViewController?.present(vc, animated: false, completion: nil)
         return true
     }
 

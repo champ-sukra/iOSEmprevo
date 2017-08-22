@@ -20,7 +20,11 @@ class InitialViewController: UIViewController {
         let bl: InitBL = InitBL()
         bl.requestInitialValue { (aObjectEvent: ObjectEvent) in
             if aObjectEvent.isSuccessful {
-                self.dismiss(animated: true, completion: nil)
+                sleep(2)
+                let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
+                let mainViewController = mainStoryBoard.instantiateViewController(withIdentifier: "MainVC") as! MainViewController
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.window?.rootViewController = mainViewController
             }
             else {
                 print(aObjectEvent.resultMessage)

@@ -8,9 +8,11 @@
 import UIKit
 import MapKit
 
-class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class MainViewController: UIViewController, MKMapViewDelegate {
     
-    @IBOutlet weak var postcodeLabel: UILabel!
+    @IBOutlet weak var swLS: UISwitch!
+    @IBOutlet weak var tfRadius: UITextField!
+    @IBOutlet weak var sliRadius: UISlider!
     @IBOutlet weak var postcodeTF: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var smcSwitch: UISegmentedControl!
@@ -18,34 +20,14 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     @IBOutlet weak var locMapWidth: NSLayoutConstraint!
     @IBOutlet weak var locTableWidth: NSLayoutConstraint!
     @IBOutlet weak var scContent: UIScrollView!
-    @IBOutlet weak var lbDistance: UILabel!
 
     var arShitfts: [Shift] = [Shift]()
     
-    var _useLocation = false
-    var useLocation:Bool {
-        set(newValue) {
-            if (newValue) {
-                postcodeTF.isHidden = true
-                postcodeLabel.isHidden = true
-                self.searchByLocation()
-            } else {
-                postcodeTF.isHidden = false
-                postcodeLabel.isHidden = false
-            }
-            
-            _useLocation = newValue
-        }
-        
-        get {
-            return _useLocation
-        }
-    }
     var regionRadius: CLLocationDistance = 10000
     let locationManager = CLLocationManager()
     let bl: ShiftBL = ShiftBL()
     
-    var initialLocation = CLLocation(latitude: -37.8010, longitude: 144.897470)
+    var locationCoordinate: CLLocation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,24 +36,11 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         self.locTableWidth.constant =  UIScreen.main.bounds.size.width
         
         self.tbShifts.dataSource = self;
-        self.lbDistance.text = "5" + " KM"
         self.scContent.isPagingEnabled = true
         
-        // Ask for Authorisation from the User.
-        self.locationManager.requestAlwaysAuthorization()
+        self.mapView.delegate = self
         
-        // For use in foreground
-        self.locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-            locationManager.distanceFilter = kCLDistanceFilterNone;
-            locationManager.startUpdatingLocation()
-        }
-        
-        mapView.delegate = self
-        useLocation = false
+        self.postcodeTF.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,27 +49,67 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         let alertController = UIAlertController(title: "", message: "Do you want to use your current location?", preferredStyle: .alert)
         
         let OKAction = UIAlertAction(title: "Yes", style: .default) { (action:UIAlertAction!) in
-            self.useLocation = true
-
+            self.swLS.setOn(true, animated: true)
+            self.startUsingLocationService()
+            self.reloadInitialData()
         }
         alertController.addAction(OKAction)
         
         let cancelAction = UIAlertAction(title: "No", style: .cancel) { (action:UIAlertAction!) in
-            self.useLocation = false
+            self.swLS.setOn(false, animated: true)
+            self.reloadInitialData()
+            
+            let address = self.postcodeTF.text ?? "3000" + ", Victoria, Australia"
+            let geocoder = CLGeocoder()
+            geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
+                if((error) != nil){
+                    print(error?.localizedDescription ?? "Error -- geocodeAddressString")
+                }
+                if let placemark = placemarks?.first {
+                    let coordinates:CLLocationCoordinate2D = placemark.location!.coordinate
+                    
+                    self.locationCoordinate = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+                    self.searchByLocation()
+                }
+            })
         }
         
         alertController.addAction(cancelAction)
         
         self.present(alertController, animated: true, completion:nil)
+    }
+    
+    private func reloadInitialData() {
+        self.tfRadius.text = UserDefaults.standard.string(forKey: "startRadius")
+        self.sliRadius.minimumValue = Float(UserDefaults.standard.string(forKey: "minRadius")!)!
+        self.sliRadius.maximumValue = Float(UserDefaults.standard.string(forKey: "maxRadius")!)!
+        self.sliRadius.value = Float(UserDefaults.standard.string(forKey: "startRadius")!)!
+        self.postcodeTF.text = UserDefaults.standard.string(forKey: "postcode")
+    }
+    
+    private func startUsingLocationService() {
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
         
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+            locationManager.distanceFilter = kCLDistanceFilterNone;
+            locationManager.startUpdatingLocation()
+        }
     }
     
     func searchByLocation() {
-        centerMapOnLocation(location: initialLocation)
+        self.tfRadius.resignFirstResponder()
+        self.postcodeTF.resignFirstResponder()
         
-        bl.requestListOfShift("\(initialLocation.coordinate.latitude)",
-                              "\(initialLocation.coordinate.longitude)",
-                              String(format:"%.3f", regionRadius / 1000)) { (aObjectEvent: ObjectEvent) in
+        centerMapOnLocation(location: locationCoordinate)
+        
+        bl.requestListOfShift("\(locationCoordinate.coordinate.latitude)",
+                              "\(locationCoordinate.coordinate.longitude)", self.tfRadius.text ?? "3000") { (aObjectEvent: ObjectEvent) in
                                 print(aObjectEvent.result)
                                 
                                 self.arShitfts.removeAll()
@@ -118,23 +127,19 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
                                 
                                 let mePin = ShiftPin(title: "Me",
                                                      locationName: "",
-                                                     coordinate: self.initialLocation.coordinate)
+                                                     coordinate: self.locationCoordinate.coordinate)
                                 self.mapView.addAnnotation(mePin)
         }
     }
     
-    func searchByPostCode() {
-        let alertController = UIAlertController(title: "Error", message:
-            "searcy by post code not implemented", preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-        
-        self.present(alertController, animated: true, completion: nil)
-    }
-
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
                                                                   regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func textFieldDidChange(textField: UITextField) {
+        self.swLS.setOn(false, animated: true)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -157,24 +162,22 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         return nil
     }
     
-    @IBAction func radiusSliderChanged(_ sender: UISlider) {
-        self.regionRadius = CLLocationDistance(sender.value * 1000)
-        self.lbDistance.text = "\(sender.value)" + " KM"
-        
-        centerMapOnLocation(location: initialLocation)
+    @IBAction func switchLocationService(_ sender: Any) {
+        if (self.swLS.isOn) {
+            self.startUsingLocationService()
+        }
+        else {
+            self.locationManager.stopUpdatingLocation()
+        }
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location2D = manager.location!.coordinate
-        initialLocation = CLLocation(latitude: location2D.latitude, longitude: location2D.longitude)
+    @IBAction func radiusSliderChanged(_ sender: UISlider) {
+        self.tfRadius.text = String(format:"%.2f", sender.value)
+        self.regionRadius = CLLocationDistance(sender.value * 1000)
     }
     
     @IBAction func search(_ sender: Any) {
-        if (useLocation) {
-            searchByLocation()
-        } else {
-            searchByPostCode()
-        }
+        self.searchByLocation()
     }
     
     @IBAction func switchView(_ sender: Any) {
@@ -183,9 +186,33 @@ class MainViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     }
 }
 
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location2D = manager.location!.coordinate
+        self.locationCoordinate = CLLocation(latitude: location2D.latitude, longitude: location2D.longitude)
+    }
+}
+
 extension MainViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if (self.arShitfts.count > 0) {
+            self.tbShifts.separatorStyle = .singleLine
+            return 1
+        }
+        else {
+            let rect = CGRect(x: 0, y: 0, width: self.tbShifts.bounds.size.width, height: self.tbShifts.bounds.size.height)
+            let msgLabel = UILabel(frame: rect)
+            msgLabel.text = "No shift available. Please change your filters"
+            msgLabel.textColor = UIColor.black
+            msgLabel.numberOfLines = 0;
+            msgLabel.textAlignment = .center
+            msgLabel.font = UIFont(name: "TrebuchetMS", size: 15)
+            msgLabel.sizeToFit()
+            
+            self.tbShifts.backgroundView = msgLabel;
+            self.tbShifts.separatorStyle = .none;
+        }
+        return 0;
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -208,7 +235,4 @@ extension MainViewController: UITableViewDataSource {
         
         return cell
     }
-
 }
-
-
