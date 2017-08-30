@@ -149,6 +149,9 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     
     func textFieldDidChange(textField: UITextField) {
         self.swLS.setOn(false, animated: true)
+        if !self.swLS.isOn {
+            self.locationManager.stopUpdatingLocation()
+        }
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
