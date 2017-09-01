@@ -10,10 +10,6 @@ import MapKit
 
 class MainViewController: UIViewController, MKMapViewDelegate {
     
-    @IBOutlet weak var swLS: UISwitch!
-    @IBOutlet weak var tfRadius: UITextField!
-    @IBOutlet weak var sliRadius: UISlider!
-    @IBOutlet weak var postcodeTF: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var smcSwitch: UISegmentedControl!
     @IBOutlet weak var tbShifts: UITableView!
@@ -27,39 +23,52 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     let locationManager = CLLocationManager()
     let bl: ShiftBL = ShiftBL()
     
-    var locationCoordinate: CLLocation!
+    private var isUsingLocationService: Bool = false
+    fileprivate var locationCoordinate: CLLocation!
+    private var notification: NSObjectProtocol?
     
+    deinit {
+        if let notification = notification {
+            NotificationCenter.default.removeObserver(notification)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Emprevo"
         
         self.locMapWidth.constant =  UIScreen.main.bounds.size.width
         self.locTableWidth.constant =  UIScreen.main.bounds.size.width
         
-        self.tbShifts.dataSource = self;
+        self.tbShifts.dataSource = self
+        
         self.scContent.isPagingEnabled = true
         
         self.mapView.delegate = self
         
-        self.postcodeTF.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+        notification = NotificationCenter.default.addObserver(forName: .UIApplicationWillEnterForeground, object: nil, queue: .main) {
+            [unowned self] notification in
+            self.presentPopupLocationService()
+        }
+        self.presentPopupLocationService()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    private func presentPopupLocationService() {
         let alertController = UIAlertController(title: "", message: "Do you want to use your current location?", preferredStyle: .alert)
         
         let OKAction = UIAlertAction(title: "Yes", style: .default) { (action:UIAlertAction!) in
-            self.swLS.setOn(true, animated: true)
+            self.isUsingLocationService = true
             self.startUsingLocationService()
             self.reloadInitialData()
         }
         alertController.addAction(OKAction)
         
         let cancelAction = UIAlertAction(title: "No", style: .cancel) { (action:UIAlertAction!) in
-            self.swLS.setOn(false, animated: true)
+            self.isUsingLocationService = false
             self.reloadInitialData()
             self.reloadLocationCoordinate(aCompletion: { (Void) in
-                self.searchByLocation()
+                self.searchByLocation(UserDefaults.standard.string(forKey: "postcode") ?? "3000")
             })
         }
         
@@ -69,7 +78,7 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     }
     
     private func reloadLocationCoordinate(aCompletion: @escaping (Void) -> Void) {
-        let address = self.postcodeTF.text ?? "3000" + ", Victoria, Australia"
+        let address = "3000" + ", Victoria, Australia"//self.postcodeTF.text ?? "3000" + ", Victoria, Australia"
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
             if((error) != nil){
@@ -85,11 +94,11 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     }
     
     private func reloadInitialData() {
-        self.tfRadius.text = UserDefaults.standard.string(forKey: "startRadius")
-        self.sliRadius.minimumValue = Float(UserDefaults.standard.string(forKey: "minRadius")!)!
-        self.sliRadius.maximumValue = Float(UserDefaults.standard.string(forKey: "maxRadius")!)!
-        self.sliRadius.value = Float(UserDefaults.standard.string(forKey: "startRadius")!)!
-        self.postcodeTF.text = UserDefaults.standard.string(forKey: "postcode")
+//        self.tfRadius.text = UserDefaults.standard.string(forKey: "startRadius")
+//        self.sliRadius.minimumValue = Float(UserDefaults.standard.string(forKey: "minRadius")!)!
+//        self.sliRadius.maximumValue = Float(UserDefaults.standard.string(forKey: "maxRadius")!)!
+//        self.sliRadius.value = Float(UserDefaults.standard.string(forKey: "startRadius")!)!
+//        self.postcodeTF.text = UserDefaults.standard.string(forKey: "postcode")
     }
     
     private func startUsingLocationService() {
@@ -107,10 +116,8 @@ class MainViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func searchByLocation() {
+    func searchByLocation(_ aPostcode: String) {
         self.isSearching = true
-        self.tfRadius.resignFirstResponder()
-        self.postcodeTF.resignFirstResponder()
         self.arShitfts.removeAll()
         self.tbShifts.reloadData()
         
@@ -118,7 +125,8 @@ class MainViewController: UIViewController, MKMapViewDelegate {
             self.centerMapOnLocation(location: self.locationCoordinate)
             
             self.bl.requestListOfShift("\(self.locationCoordinate.coordinate.latitude)",
-            "\(self.locationCoordinate.coordinate.longitude)", self.tfRadius.text ?? "3000") { (aObjectEvent: ObjectEvent) in
+            "\(self.locationCoordinate.coordinate.longitude)",
+            aPostcode) { (aObjectEvent: ObjectEvent) in
                 self.isSearching = false
                 
                 self.arShitfts.append(contentsOf: aObjectEvent.result as! [Shift])
@@ -148,10 +156,11 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     }
     
     func textFieldDidChange(textField: UITextField) {
-        self.swLS.setOn(false, animated: true)
-        if !self.swLS.isOn {
-            self.locationManager.stopUpdatingLocation()
-        }
+        self.isUsingLocationService = false
+//        self.swLS.setOn(false, animated: true)
+//        if !self.swLS.isOn {
+//            self.locationManager.stopUpdatingLocation()
+//        }
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -175,7 +184,7 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func switchLocationService(_ sender: Any) {
-        if (self.swLS.isOn) {
+        if (self.isUsingLocationService) {
             self.startUsingLocationService()
         }
         else {
@@ -184,17 +193,17 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func radiusSliderChanged(_ sender: UISlider) {
-        self.tfRadius.text = String(format:"%.2f", sender.value)
-        self.regionRadius = CLLocationDistance(sender.value * 1000)
-    }
-    
-    @IBAction func search(_ sender: Any) {
-        self.searchByLocation()
+//        self.tfRadius.text = String(format:"%.2f", sender.value)
+//        self.regionRadius = CLLocationDistance(sender.value * 1000)
     }
     
     @IBAction func switchView(_ sender: Any) {
         let x = CGFloat(self.smcSwitch.selectedSegmentIndex) * self.scContent.frame.size.width
         self.scContent.setContentOffset(CGPoint(x:x, y:0), animated: true)
+    }
+    
+    @IBAction func filterChange(_ sender: Any) {
+        self.performSegue(withIdentifier: "main_filter", sender: self)
     }
 }
 
@@ -209,9 +218,42 @@ extension MainViewController: CLLocationManagerDelegate {
                 print(error?.localizedDescription ?? "Error -- geocodeAddressString")
             }
             if let placemark = placemarks?.first {
-                self.postcodeTF.text = placemark.postalCode
+//                self.postcodeTF.text = placemark.postalCode
             }
         })
+    }
+}
+
+extension MainViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.tag == 1 {
+            textField.resignFirstResponder()
+            
+//            let double = Float(textField.text!)
+//            let less = Float("0")
+//            let over = Float("100")
+//            
+//            if doubl.c. {
+//                if let floatValue = Float(textField.text!) {
+//                    self.sliRadius.setValue(floatValue, animated: true)
+//                }
+//            }
+//            else {
+//                if textField.text?.caseInsensitiveCompare("0") == ComparisonResult.orderedAscending {
+//                    textField.text = "0"
+//                }
+//                if textField.text?.caseInsensitiveCompare("100") == ComparisonResult.orderedDescending {
+//                    textField.text = "100"
+//                }
+//            }
+            
+            
+            if let floatValue = Float(textField.text!) {
+//                self.sliRadius.setValue(floatValue, animated: true)
+            }
+            
+        }
+        return true
     }
 }
 
@@ -258,3 +300,4 @@ extension MainViewController: UITableViewDataSource {
         return cell
     }
 }
+

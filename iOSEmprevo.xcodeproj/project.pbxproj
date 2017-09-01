@@ -18,6 +18,9 @@
 		2083C7701F3CA99200BE794C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2083C76E1F3CA99200BE794C /* LaunchScreen.storyboard */; };
 		2083C77B1F3CA99200BE794C /* iOSEmprevoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2083C77A1F3CA99200BE794C /* iOSEmprevoTests.swift */; };
 		20B00FCD1F496FA6000BD5D4 /* ShiftTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */; };
+		20DDCFDA1F580EA80056D32F /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DDCFD91F580EA80056D32F /* FilterViewController.swift */; };
+		20DDCFDC1F580FE90056D32F /* DistanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DDCFDB1F580FE90056D32F /* DistanceViewController.swift */; };
+		20DDCFDE1F5828F50056D32F /* FilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DDCFDD1F5828F50056D32F /* FilterTableViewCell.swift */; };
 		20F324661F4B15E0005A2DE7 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F324651F4B15E0005A2DE7 /* InitialViewController.swift */; };
 		20F324681F4B16F2005A2DE7 /* InitBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F324671F4B16F2005A2DE7 /* InitBL.swift */; };
 		20F3246A1F4B1904005A2DE7 /* BaseBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F324691F4B1904005A2DE7 /* BaseBL.swift */; };
@@ -54,6 +57,9 @@
 		2083C77A1F3CA99200BE794C /* iOSEmprevoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSEmprevoTests.swift; sourceTree = "<group>"; };
 		2083C77C1F3CA99200BE794C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20B00FCC1F496FA6000BD5D4 /* ShiftTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftTableViewCell.swift; sourceTree = "<group>"; };
+		20DDCFD91F580EA80056D32F /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		20DDCFDB1F580FE90056D32F /* DistanceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceViewController.swift; sourceTree = "<group>"; };
+		20DDCFDD1F5828F50056D32F /* FilterTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTableViewCell.swift; sourceTree = "<group>"; };
 		20F324651F4B15E0005A2DE7 /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 		20F324671F4B16F2005A2DE7 /* InitBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitBL.swift; sourceTree = "<group>"; };
 		20F324691F4B1904005A2DE7 /* BaseBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseBL.swift; sourceTree = "<group>"; };
@@ -117,6 +123,7 @@
 				2083C76C1F3CA99200BE794C /* Assets.xcassets */,
 				2083C76E1F3CA99200BE794C /* LaunchScreen.storyboard */,
 				2083C7711F3CA99200BE794C /* Info.plist */,
+				20DDCFDD1F5828F50056D32F /* FilterTableViewCell.swift */,
 			);
 			path = iOSEmprevo;
 			sourceTree = "<group>";
@@ -135,6 +142,8 @@
 			children = (
 				20F324651F4B15E0005A2DE7 /* InitialViewController.swift */,
 				86AF5D7E1F48213100169FC4 /* MainViewController.swift */,
+				20DDCFD91F580EA80056D32F /* FilterViewController.swift */,
+				20DDCFDB1F580FE90056D32F /* DistanceViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -274,9 +283,12 @@
 				86AF5D811F482A3E00169FC4 /* ShiftPin.swift in Sources */,
 				2083C7661F3CA99200BE794C /* AppDelegate.swift in Sources */,
 				20F324681F4B16F2005A2DE7 /* InitBL.swift in Sources */,
+				20DDCFDA1F580EA80056D32F /* FilterViewController.swift in Sources */,
 				20F324661F4B15E0005A2DE7 /* InitialViewController.swift in Sources */,
+				20DDCFDE1F5828F50056D32F /* FilterTableViewCell.swift in Sources */,
 				203912B31F407EE8007A6099 /* HTTPSessionManager.swift in Sources */,
 				203912B21F407EE8007A6099 /* DataCloudManager.swift in Sources */,
+				20DDCFDC1F580FE90056D32F /* DistanceViewController.swift in Sources */,
 				20B00FCD1F496FA6000BD5D4 /* ShiftTableViewCell.swift in Sources */,
 				86AF5D7F1F48213100169FC4 /* MainViewController.swift in Sources */,
 			);
