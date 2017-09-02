@@ -17,7 +17,7 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var locTableWidth: NSLayoutConstraint!
     @IBOutlet weak var scContent: UIScrollView!
 
-    var arShitfts: [Shift] = [Shift]()
+    var arShitfts: [Shift]!
     var isSearching: Bool = false
     var regionRadius: CLLocationDistance = 10000
     let locationManager = CLLocationManager()
@@ -51,6 +51,7 @@ class MainViewController: UIViewController, MKMapViewDelegate {
             [unowned self] notification in
             self.presentPopupLocationService()
         }
+        
         self.presentPopupLocationService()
     }
     
@@ -68,7 +69,7 @@ class MainViewController: UIViewController, MKMapViewDelegate {
             self.isUsingLocationService = false
             self.reloadInitialData()
             self.reloadLocationCoordinate(aCompletion: { (Void) in
-                self.searchByLocation(UserDefaults.standard.string(forKey: "postcode") ?? "3000")
+                self.searchByLocation()
             })
         }
         
@@ -78,7 +79,8 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     }
     
     private func reloadLocationCoordinate(aCompletion: @escaping (Void) -> Void) {
-        let address = "3000" + ", Victoria, Australia"//self.postcodeTF.text ?? "3000" + ", Victoria, Australia"
+        let postcode = UserDefaults.standard.string(forKey: "postcode") ?? "3000"
+        let address = postcode + ", Victoria, Australia"//self.postcodeTF.text ?? "3000" + ", Victoria, Australia"
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
             if((error) != nil){
@@ -116,22 +118,25 @@ class MainViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func searchByLocation(_ aPostcode: String) {
+    func searchByLocation() {
         self.isSearching = true
-        self.arShitfts.removeAll()
+        self.arShitfts?.removeAll()
         self.tbShifts.reloadData()
         
-        self.reloadLocationCoordinate { (Void) in
+        let distance = UserDefaults.standard.string(forKey: "startRadius")
+        
+        //prepare region radius
+        if let temp = distance, let distance_ = Double(temp) {
+            self.regionRadius = CLLocationDistance(distance_ * 1000)
             self.centerMapOnLocation(location: self.locationCoordinate)
+        }
+        
+        self.bl.requestListOfShift("\(self.locationCoordinate.coordinate.latitude)", "\(self.locationCoordinate.coordinate.longitude)", distance!) { (aObjectEvent: ObjectEvent) in
+            self.isSearching = false
             
-            self.bl.requestListOfShift("\(self.locationCoordinate.coordinate.latitude)",
-            "\(self.locationCoordinate.coordinate.longitude)",
-            aPostcode) { (aObjectEvent: ObjectEvent) in
-                self.isSearching = false
-                
-                self.arShitfts.append(contentsOf: aObjectEvent.result as! [Shift])
+            if let result = aObjectEvent.result as? [Shift] {
+                self.arShitfts = result
                 self.tbShifts.reloadData()
-                
                 
                 for shift in self.arShitfts {
                     let shiftPin = ShiftPin(title: shift.company,
@@ -155,14 +160,6 @@ class MainViewController: UIViewController, MKMapViewDelegate {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    func textFieldDidChange(textField: UITextField) {
-        self.isUsingLocationService = false
-//        self.swLS.setOn(false, animated: true)
-//        if !self.swLS.isOn {
-//            self.locationManager.stopUpdatingLocation()
-//        }
-    }
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? ShiftPin {
             let identifier = "pin"
@@ -183,20 +180,6 @@ class MainViewController: UIViewController, MKMapViewDelegate {
         return nil
     }
     
-    @IBAction func switchLocationService(_ sender: Any) {
-        if (self.isUsingLocationService) {
-            self.startUsingLocationService()
-        }
-        else {
-            self.locationManager.stopUpdatingLocation()
-        }
-    }
-    
-    @IBAction func radiusSliderChanged(_ sender: UISlider) {
-//        self.tfRadius.text = String(format:"%.2f", sender.value)
-//        self.regionRadius = CLLocationDistance(sender.value * 1000)
-    }
-    
     @IBAction func switchView(_ sender: Any) {
         let x = CGFloat(self.smcSwitch.selectedSegmentIndex) * self.scContent.frame.size.width
         self.scContent.setContentOffset(CGPoint(x:x, y:0), animated: true)
@@ -212,15 +195,20 @@ extension MainViewController: CLLocationManagerDelegate {
         let location2D = manager.location!.coordinate
         self.locationCoordinate = CLLocation(latitude: location2D.latitude, longitude: location2D.longitude)
 
-        let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(self.locationCoordinate, completionHandler: {(placemarks, error) -> Void in
-            if((error) != nil){
-                print(error?.localizedDescription ?? "Error -- geocodeAddressString")
-            }
-            if let placemark = placemarks?.first {
+        if self.arShitfts == nil {
+            self.searchByLocation()
+        }
+
+        //in case of we want to convert from coordinate to postcode -- leave it for now
+//        let geocoder = CLGeocoder()
+//        geocoder.reverseGeocodeLocation(self.locationCoordinate, completionHandler: {(placemarks, error) -> Void in
+//            if((error) != nil) {
+//                print(error?.localizedDescription ?? "Error -- geocodeAddressString")
+//            }
+//            if let placemark = placemarks?.first {
 //                self.postcodeTF.text = placemark.postalCode
-            }
-        })
+//            }
+//        })
     }
 }
 
@@ -259,7 +247,7 @@ extension MainViewController: UITextFieldDelegate {
 
 extension MainViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        if (self.arShitfts.count > 0) {
+        if (self.arShitfts != nil && self.arShitfts.count > 0) {
             self.tbShifts.separatorStyle = .singleLine
             return 1
         }

@@ -22,9 +22,9 @@ class InitialViewController: UIViewController {
             if aObjectEvent.isSuccessful {
                 sleep(2)
                 let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
-                let mainViewController = mainStoryBoard.instantiateViewController(withIdentifier: "MainVC") as! MainViewController
+                let navMain = mainStoryBoard.instantiateViewController(withIdentifier: "MainVC") as! UINavigationController
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.window?.rootViewController = mainViewController
+                appDelegate.window?.rootViewController = navMain
             }
             else {
                 print(aObjectEvent.resultMessage)

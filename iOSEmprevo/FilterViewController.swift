@@ -10,9 +10,10 @@ import UIKit
 
 class FilterViewController: UIViewController {
 
-    @IBOutlet weak var tbFilter: UITableView!
-    var arFilters: [String] = ["Postcode", "Distance"]
+    fileprivate var arFilters: [String]!
     
+    @IBOutlet weak var tbFilter: UITableView!
+    public var isUsingLocationService: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +22,8 @@ class FilterViewController: UIViewController {
         
         self.tbFilter.dataSource = self
         self.tbFilter.delegate = self
+        
+        self.arFilters = (self.isUsingLocationService == true) ? ["Postcode", "Distance"] : ["Postcode", "Distance"]
         
         let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done",
                                                            style: .plain,

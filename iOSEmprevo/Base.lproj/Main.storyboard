@@ -63,7 +63,6 @@
                     </view>
                     <connections>
                         <outlet property="lbLoading" destination="xEH-jP-Yrq" id="LnQ-OU-mel"/>
-                        <segue destination="mrf-mc-ktl" kind="custom" identifier="push" id="Y6I-Rv-ntZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S4h-CY-2Wy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -73,7 +72,7 @@
         <!--Main View Controller-->
         <scene sceneID="wSx-w1-IQt">
             <objects>
-                <viewController storyboardIdentifier="MainVC" automaticallyAdjustsScrollViewInsets="NO" id="Vqx-eW-Hae" userLabel="Main View Controller" customClass="MainViewController" customModule="iOSEmprevo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Vqx-eW-Hae" userLabel="Main View Controller" customClass="MainViewController" customModule="iOSEmprevo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="c44-m2-LtD"/>
                         <viewControllerLayoutGuide type="bottom" id="0Mn-rF-Tlg"/>
@@ -236,7 +235,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Nhl-Hb-wYD">
             <objects>
-                <navigationController id="mrf-mc-ktl" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MainVC" id="mrf-mc-ktl" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UJ1-dF-CnW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
