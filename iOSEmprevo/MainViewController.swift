@@ -188,6 +188,24 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     @IBAction func filterChange(_ sender: Any) {
         self.performSegue(withIdentifier: "main_filter", sender: self)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "main_filter" {
+            if let vc: FilterViewController = segue.destination as? FilterViewController {
+                vc.isUsingLocationService = self.isUsingLocationService
+                vc.completion = { (aCompletion: Void) in
+                    if self.isUsingLocationService == true {
+                        self.reloadLocationCoordinate(aCompletion: { (Void) in
+                            self.searchByLocation()
+                        })
+                    }
+                    else {
+                        self.searchByLocation()
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension MainViewController: CLLocationManagerDelegate {

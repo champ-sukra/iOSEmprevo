@@ -10,7 +10,8 @@ import UIKit
 
 class DistanceViewController: UIViewController {
 
-    var arDistaces: [String] = ["5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70"]
+    var arDistaces: [String] = []
+    var completion: ((_ aCompletion: Void) -> Void)?
     
     @IBOutlet weak var tbDistance: UITableView!
     
@@ -18,21 +19,22 @@ class DistanceViewController: UIViewController {
         super.viewDidLoad()
 
         self.title = "Distance"
+        
+        let maxDistance = UserDefaults.standard.string(forKey: "maxRadius")
+        let iMax = Int(maxDistance!)
+        
+        var iStart = 0
+        while (iStart <= iMax!) {
+            iStart += 1
+            
+            if iStart % 5 == 0 {
+                self.arDistaces.append("\(iStart)")
+            }
+        }
+        
         self.tbDistance.dataSource = self
         self.tbDistance.delegate = self
-        
-        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done",
-                                                           style: .plain,
-                                                           target: self,
-                                                           action: "")
-        self.navigationItem.rightBarButtonItem = doneButton
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
 
     /*
     // MARK: - Navigation
@@ -64,7 +66,9 @@ extension DistanceViewController: UITableViewDataSource {
 
 extension DistanceViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
+        UserDefaults.standard.set(self.arDistaces[indexPath.row], forKey: "startRadius")
+        self.navigationController?.popViewController(animated: true)
+        completion!()
     }
 }
 

@@ -10,10 +10,12 @@ import UIKit
 
 class FilterViewController: UIViewController {
 
+    var completion: ((_ aCompletion: Void) -> Void)?
+    public var isUsingLocationService: Bool = false
+    
     fileprivate var arFilters: [String]!
     
     @IBOutlet weak var tbFilter: UITableView!
-    public var isUsingLocationService: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,25 +25,39 @@ class FilterViewController: UIViewController {
         self.tbFilter.dataSource = self
         self.tbFilter.delegate = self
         
-        self.arFilters = (self.isUsingLocationService == true) ? ["Postcode", "Distance"] : ["Postcode", "Distance"]
+        self.arFilters = (self.isUsingLocationService == true) ? ["Distance"] : ["Postcode", "Distance"]
         
         let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done",
                                                            style: .plain,
                                                            target: self,
-                                                           action: "")
+                                                           action: #selector(doneTapped(_:)))
         self.navigationItem.rightBarButtonItem = doneButton
     }
     
+    func doneTapped(_ aSender: UIBarButtonItem) {
+        let c_0 = self.tbFilter.cellForRow(at: IndexPath(row: 0, section: 0)) as! FilterTableViewCell
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if self.isUsingLocationService == true {
+            UserDefaults.standard.set(c_0.tfPostcode.text, forKey: "startRadius")
+        }
+        else {
+            let c_1 = self.tbFilter.cellForRow(at: IndexPath(row: 1, section: 0)) as! FilterTableViewCell
+            UserDefaults.standard.set(c_0.tfPostcode.text, forKey: "postcode")
+            UserDefaults.standard.set(c_1.tfPostcode.text, forKey: "startRadius")
+        }
+        self.navigationController?.popViewController(animated: true)        
+        completion!()
     }
-    */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "filter_distance" {
+            if let vc: DistanceViewController = segue.destination as? DistanceViewController {
+                vc.completion = { (aCompletion: Void) in
+                    self.tbFilter.reloadData()
+                }
+            }
+        }
+    }
 }
 
 extension FilterViewController: UITableViewDataSource {
@@ -60,11 +76,22 @@ extension FilterViewController: UITableViewDataSource {
             fatalError("The dequeued cell is not an instance of ShiftTableViewCell.")
         }
         
-//        let shift: Shift = self.arShitfts[indexPath.row];
-        
         cell.lbTitle.text = self.arFilters[indexPath.row]
-        if indexPath.row == 1 {
-            cell.accessoryType = .disclosureIndicator
+        
+        if self.isUsingLocationService {
+            if indexPath.row == 0 {
+                cell.accessoryType = .disclosureIndicator
+                cell.tfPostcode.text = UserDefaults.standard.string(forKey: "startRadius") ?? "5"
+            }
+        }
+        else {
+            if indexPath.row == 0 {
+                cell.tfPostcode.text = UserDefaults.standard.string(forKey: "postcode") ?? "3000"
+            }
+            if indexPath.row == 1 {
+                cell.accessoryType = .disclosureIndicator
+                cell.tfPostcode.text = UserDefaults.standard.string(forKey: "startRadius") ?? "5"
+            }
         }
         
         return cell
