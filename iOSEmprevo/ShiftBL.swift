@@ -29,7 +29,7 @@ class ShiftBL: BaseBL {
                                     }
                                 }
                                 shifts.sort {
-                                    $0.distance < $1.distance
+                                    $0.dbDistance < $1.dbDistance
                                 }
                                 aObjectEvent.result = shifts
                                 aCompletion(aObjectEvent)

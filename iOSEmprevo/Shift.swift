@@ -17,6 +17,8 @@ struct Shift {
     var longitude: Double!
     var startTime: String!
     var endTime: String!
+    var dbDistance: Double!
+    
     
     /*CompanyName":"BlueCross",
      "Shift Location Name":"Riverlea",
@@ -50,6 +52,7 @@ struct Shift {
         }
         if let distance = aData["distance"] as? String {
             self.distance = distance;
+            self.dbDistance = Double(self.distance)
         }
     }
     
