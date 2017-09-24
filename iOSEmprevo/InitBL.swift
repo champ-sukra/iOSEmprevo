@@ -11,7 +11,7 @@ import Foundation
 class InitBL: BaseBL {
     public func requestInitialValue(aCompletion: @escaping (ObjectEvent) -> Void) {
         manager.requestGET("api/values") { (aObjectEvent: ObjectEvent) in
-            guard let results = aObjectEvent.result as? [String: String] else {
+            guard let results = aObjectEvent.result as? [Any] else {
                 aObjectEvent.isSuccessful = false
                 aObjectEvent.resultMessage = "Server internal error"
                 
@@ -19,8 +19,9 @@ class InitBL: BaseBL {
                 return
             }
             
-            for key in results.keys {
-                UserDefaults.standard.set(results[key], forKey: key)
+            let result = results[0] as! [String: String];
+            for key in result.keys {
+                UserDefaults.standard.set(result[key], forKey: key)
             }
             aObjectEvent.isSuccessful = true
             aCompletion(aObjectEvent)

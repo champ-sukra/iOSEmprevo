@@ -54,7 +54,7 @@ class HTTPSessionManager {
                 
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    if let message = json as? [String: String] {
+                    if let message = json as? [Any] {
                         event.isSuccessful = true
                         event.result = message
                     }

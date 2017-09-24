@@ -140,14 +140,14 @@ class MainViewController: UIViewController, MKMapViewDelegate {
                 
                 for shift in self.arShitfts {
                     let shiftPin = ShiftPin(title: shift.company,
-                                            locationName: shift.location,
+                                            info: shift.location + "\n" + shift.address,
                                             coordinate: CLLocationCoordinate2D(latitude: shift.latitude, longitude: shift.longitude))
                     
                     self.mapView.addAnnotation(shiftPin)
                 }
                 
                 let mePin = ShiftPin(title: "Me",
-                                     locationName: "",
+                                     info: "",
                                      coordinate: self.locationCoordinate.coordinate)
                 self.mapView.addAnnotation(mePin)
             }
@@ -160,7 +160,46 @@ class MainViewController: UIViewController, MKMapViewDelegate {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let capital = view.annotation as! ShiftPin
+        let placeName = capital.title
+        let placeInfo = capital.info
+        
+        let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // 1
+        let identifier = "pin"
+        
+        // 2
+        if annotation is ShiftPin {
+            // 3
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            
+            if annotationView == nil {
+                //4
+                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                annotationView!.canShowCallout = true
+                
+                // 5
+                let btn = UIButton(type: .detailDisclosure)
+                annotationView!.rightCalloutAccessoryView = btn
+            } else {
+                // 6
+                annotationView!.annotation = annotation
+            }
+            
+            return annotationView
+        }
+        
+        // 7
+        return nil
+        
+        /*
+        
         if let annotation = annotation as? ShiftPin {
             let identifier = "pin"
             var view: MKPinAnnotationView
@@ -173,11 +212,13 @@ class MainViewController: UIViewController, MKMapViewDelegate {
                 view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 view.canShowCallout = true
                 view.calloutOffset = CGPoint(x: -5, y: 5)
-                view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
+                let btn: UIButton = UIButton(type: .detailDisclosure)
+                btn.addTarget(self, action: #selector(detailPressed(_:)), for: .touchUpOutside)
+                view.rightCalloutAccessoryView = btn
             }
             return view
         }
-        return nil
+        return nil*/
     }
     
     @IBAction func switchView(_ sender: Any) {
@@ -187,6 +228,10 @@ class MainViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func filterChange(_ sender: Any) {
         self.performSegue(withIdentifier: "main_filter", sender: self)
+    }
+    
+    func detailPressed(_ aSender: UIButton) -> Void {
+        //
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
