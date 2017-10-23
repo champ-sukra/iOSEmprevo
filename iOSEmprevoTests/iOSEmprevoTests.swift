@@ -24,7 +24,7 @@ class iOSEmprevoTests: XCTestCase {
     func testGettingRate() {
         let expect = expectation(description: "server timeout")
         let manager: HTTPSessionManager = HTTPSessionManager();
-        manager.requestGET("api/information/setting") { (aObjectEvent) in
+        manager.requestGET("api/information/company") { (aObjectEvent) in
             XCTAssertTrue(true)
         }
         waitForExpectations(timeout: 1000000) { error in
@@ -46,13 +46,15 @@ class iOSEmprevoTests: XCTestCase {
 //                                XCTAssertTrue(true)
 //        }
         let manager: HTTPSessionManager = HTTPSessionManager();
-        manager.requestPOST("api/invoice",
+        manager.requestPOST("api/information/ratecard",
                             [
-//                                "Rate1": "5.55",
-//                                "Rate2": "4.44",
-                                "Name": "Champ",
-                                "Email": "chaithat.sukra@gmail.com",
-                                "RateCardId": "5741031244955648",
+                                "Type": "Rate Card x",
+                                "Rate1": "14",
+                                "Rate2": "13",
+                                "Rate3": "12",
+                                "Rate4": "11",
+                                "Id": "5741031244955648",
+                                "Fn": "Update",
                             ]) { aObjectResult in
                                 XCTAssertTrue(true)
         }
