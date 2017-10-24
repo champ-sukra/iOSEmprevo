@@ -25,11 +25,11 @@ class iOSEmprevoTests: XCTestCase {
         let expect = expectation(description: "server timeout")
         let manager: HTTPSessionManager = HTTPSessionManager();
         manager.requestGET("api/information/company") { (aObjectEvent) in
-            XCTAssertTrue(true)
+            if aObjectEvent.isSuccessful {
+                expect.fulfill()
+            }
         }
-        waitForExpectations(timeout: 1000000) { error in
-            XCTAssertTrue(false)
-        }
+        waitForExpectations(timeout: 120, handler: nil)
     }
     
     func testExample() {
@@ -39,28 +39,15 @@ class iOSEmprevoTests: XCTestCase {
         //this must be set before using waitForExpe...
         let expect = expectation(description: "server timeout")
 
-//        let bl: ShiftBL = ShiftBL()
-//        bl.requestListOfShift("-37.801092800000006",
-//                              "144.89747079999998",
-//                              "20") { (aObjectEvent: ObjectEvent) in
-//                                XCTAssertTrue(true)
-//        }
-        let manager: HTTPSessionManager = HTTPSessionManager();
-        manager.requestPOST("api/information/ratecard",
-                            [
-                                "Type": "Rate Card x",
-                                "Rate1": "14",
-                                "Rate2": "13",
-                                "Rate3": "12",
-                                "Rate4": "11",
-                                "Id": "5741031244955648",
-                                "Fn": "Update",
-                            ]) { aObjectResult in
-                                XCTAssertTrue(true)
+        let bl: ShiftBL = ShiftBL()
+        bl.requestListOfShift("-37.801092800000006",
+                              "144.89747079999998",
+                              "20") { (aObjectEvent: ObjectEvent) in
+                                if aObjectEvent.isSuccessful {
+                                    expect.fulfill()
+                                }
         }
-        waitForExpectations(timeout: 1000000) { error in
-            
-        }
+        waitForExpectations(timeout: 120, handler: nil)
     }
     
     func testPerformanceExample() {
