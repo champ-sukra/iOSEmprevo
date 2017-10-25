@@ -21,10 +21,11 @@ class iOSEmprevoTests: XCTestCase {
         super.tearDown()
     }
     
-    func testGettingRate() {
+    func testGettingIntialValue() {
         let expect = expectation(description: "server timeout")
         let manager: HTTPSessionManager = HTTPSessionManager();
-        manager.requestGET("api/information/company") { (aObjectEvent) in
+        
+        manager.requestGET("api/values") { (aObjectEvent) in
             if aObjectEvent.isSuccessful {
                 expect.fulfill()
             }
